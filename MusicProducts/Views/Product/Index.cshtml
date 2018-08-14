@@ -9,25 +9,33 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.bandID)
+            Band
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.description)
+            Description
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.categoryID)
+            Category
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.releaseDate)
+            @Html.ActionLink("Release Date", "Index", new { sortOrder = ViewBag.DateSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.price)
+            Price
         </th>
         <th></th>
     </tr>
@@ -36,7 +44,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                <b>@Html.DisplayFor(modelItem => item.name)</b>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bands.bandName)

@@ -16,8 +16,34 @@ namespace MusicProducts
         private ProductContext db = new ProductContext();
 
         // GET: Product
-        public ActionResult Index()
+        public ViewResult Index(string sortOrder, string searchString)
         {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            var products = from s in db.products
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.name.Contains(searchString) || s.Bands.bandName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    products = products.OrderByDescending(s => s.name);
+                    break;
+
+                case "Date":
+                    products = products.OrderBy(s => s.releaseDate);
+                    break;
+
+                case "date_desc":
+                    products = products.OrderByDescending(s => s.releaseDate);
+                    break;
+
+                default:
+                    products = products.OrderBy(s => s.name);
+                    break;
+            }
             return View(db.products.ToList());
         }
 
@@ -43,17 +69,24 @@ namespace MusicProducts
         }
 
         // POST: Product/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,name,bandID,description,categoryID,releaseDate,price")] Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.products.Add(product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.products.Add(product);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException /*dex*/)
+            {
+                ModelState.AddModelError("", "Unable to save changes.Try again, and if the problem persists see your system administrator.");
             }
 
             return View(product);
@@ -75,7 +108,7 @@ namespace MusicProducts
         }
 
         // POST: Product/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
