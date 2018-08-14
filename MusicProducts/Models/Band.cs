@@ -5,10 +5,10 @@ using System.Web;
 
 namespace MusicProducts.Models
 {
-    public class Category
+    public class Band
     {
-        public int categoryID { get; set; }
-        public string categoryName;
+        public int bandID { get; set; }
+        public string bandName;
 
         public virtual Product product { get; set; }
     }
