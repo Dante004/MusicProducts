@@ -8,7 +8,7 @@ namespace MusicProducts.Models
     public class Band
     {
         public int bandID { get; set; }
-        public string bandName;
+        public string bandName { get; set; }
 
         public virtual ICollection<Product> product { get; set; }
     }

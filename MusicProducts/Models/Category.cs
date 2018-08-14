@@ -8,7 +8,7 @@ namespace MusicProducts.Models
     public class Category
     {
         public int categoryID { get; set; }
-        public string categoryName;
+        public string categoryName { get; set; }
 
         public virtual ICollection<Product> product { get; set; }
     }
