@@ -11,9 +11,9 @@ namespace MusicProducts.Models
         public string description { get; set; }
         public int categoryID { get; set; }
         public DateTime releaseDate { get; set; }
-        public int? price { get; set; }
+        public decimal? price { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; }
-        public virtual ICollection<Band> Bands { get; set; }
+        public virtual Category Categories { get; set; }
+        public virtual Band Bands { get; set; }
     }
 }

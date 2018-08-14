@@ -10,6 +10,6 @@ namespace MusicProducts.Models
         public int categoryID { get; set; }
         public string categoryName;
 
-        public virtual Product product { get; set; }
+        public virtual ICollection<Product> product { get; set; }
     }
 }

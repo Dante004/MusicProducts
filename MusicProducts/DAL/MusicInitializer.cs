@@ -7,7 +7,7 @@ using MusicProducts.Models;
 
 namespace MusicProducts.DAL
 {
-    public class MusicInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ProductContext>
+    public class MusicInitializer : DropCreateDatabaseIfModelChanges<ProductContext>
     {
         protected override void Seed(ProductContext context)
         {

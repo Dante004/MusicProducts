@@ -10,6 +10,6 @@ namespace MusicProducts.Models
         public int bandID { get; set; }
         public string bandName;
 
-        public virtual Product product { get; set; }
+        public virtual ICollection<Product> product { get; set; }
     }
 }
