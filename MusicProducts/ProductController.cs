@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MusicProducts.DAL;
 using MusicProducts.Models;
+using PagedList;
 
 namespace MusicProducts
 {
@@ -16,10 +17,23 @@ namespace MusicProducts
         private ProductContext db = new ProductContext();
 
         // GET: Product
-        public ViewResult Index(string sortOrder, string searchString)
+        public ViewResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             var products = from s in db.products
                            select s;
             if (!String.IsNullOrEmpty(searchString))
@@ -44,7 +58,10 @@ namespace MusicProducts
                     products = products.OrderBy(s => s.name);
                     break;
             }
-            return View(db.products.ToList());
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Product/Details/5
