@@ -22,6 +22,9 @@ namespace MusicProducts
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.BandSortParm = sortOrder == "Band" ? "band_desc" : "Band";
+            ViewBag.CategorySortParm = sortOrder == "Category" ? "category_desc" : "Category";
+            ViewBag.PriceSortParm = sortOrder == "Price" ? "price_desc" : "Price";
 
             if (searchString != null)
             {
@@ -54,14 +57,37 @@ namespace MusicProducts
                     products = products.OrderByDescending(s => s.releaseDate);
                     break;
 
+                case "Band":
+                    products = products.OrderBy(s => s.Bands.bandName);
+                    break;
+
+                case "band_desc":
+                    products = products.OrderByDescending(s => s.Bands.bandName);
+                    break;
+
+                case "Category":
+                    products = products.OrderBy(s => s.Categories.categoryName);
+                    break;
+
+                case "category_desc":
+                    products = products.OrderByDescending(s => s.Categories.categoryName);
+                    break;
+
+                case "Price":
+                    products = products.OrderBy(s => s.price);
+                    break;
+
+                case "price_desc":
+                    products = products.OrderByDescending(s => s.price);
+                    break;
+
                 default:
                     products = products.OrderBy(s => s.name);
                     break;
             }
-
-            int pageSize = 3;
+            int defaultSize = 3;
             int pageNumber = (page ?? 1);
-            return View(products.ToPagedList(pageNumber, pageSize));
+            return View(products.ToPagedList(pageNumber, defaultSize));
         }
 
         // GET: Product/Details/5
