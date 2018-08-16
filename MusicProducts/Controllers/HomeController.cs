@@ -15,7 +15,7 @@ namespace MusicProducts.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "An application made for Softwarehut for the recruitment task.";
 
             return View();
         }
