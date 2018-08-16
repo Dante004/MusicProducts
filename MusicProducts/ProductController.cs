@@ -108,6 +108,8 @@ namespace MusicProducts
         // GET: Product/Create
         public ActionResult Create()
         {
+            ViewBag.bandName = new SelectList(db.bands, "bandID", "bandName");
+            ViewBag.categoryName = new SelectList(db.categories, "categoryID", "categoryName");
             return View();
         }
 
@@ -131,13 +133,16 @@ namespace MusicProducts
             {
                 ModelState.AddModelError("", "Unable to save changes.Try again, and if the problem persists see your system administrator.");
             }
-
+            ViewBag.bandName = new SelectList(db.bands, "bandID", "bandName");
+            ViewBag.categoryName = new SelectList(db.categories, "categoryID", "categoryName");
             return View(product);
         }
 
         // GET: Product/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.categoryName = new SelectList(db.categories, "categoryID", "categoryName");
+            ViewBag.bandName = new SelectList(db.bands, "bandID", "bandName");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -157,6 +162,8 @@ namespace MusicProducts
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,name,bandID,description,categoryID,releaseDate,price")] Product product)
         {
+            ViewBag.categoryName = new SelectList(db.categories, "categoryID", "categoryName");
+            ViewBag.bandName = new SelectList(db.bands, "bandID", "bandName");
             if (ModelState.IsValid)
             {
                 db.Entry(product).State = EntityState.Modified;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace MusicProducts.Models
 {
@@ -10,7 +11,7 @@ namespace MusicProducts.Models
 
         [Required]
         [Display(Name = "Name")]
-        [StringLength(50, ErrorMessage = "The name of the album can't be longer than 50 characters.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The name of the album can't be longer than 50 characters.")]
         public string name { get; set; }
 
         [Required]
@@ -32,7 +33,7 @@ namespace MusicProducts.Models
         public DateTime releaseDate { get; set; }
 
         [Display(Name = "Price")]
-        public decimal? price { get; set; }
+        public double? price { get; set; }
 
         public virtual Category Categories { get; set; }
         public virtual Band Bands { get; set; }
