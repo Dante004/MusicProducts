@@ -12,6 +12,7 @@ namespace MusicProducts.Models
         [Required]
         [Display(Name = "Name")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "The name of the album can't be longer than 50 characters.")]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""-]*$", ErrorMessage = "These characters are not allowed.")]
         public string name { get; set; }
 
         [Required]
@@ -33,6 +34,7 @@ namespace MusicProducts.Models
         public DateTime releaseDate { get; set; }
 
         [Display(Name = "Price")]
+        [Range(1, 100), DataType(DataType.Currency)]
         public double? price { get; set; }
 
         public virtual Category Categories { get; set; }
